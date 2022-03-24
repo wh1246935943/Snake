@@ -27,17 +27,17 @@
     function update() {
       canvasContext.clearRect(0, 0, canvas.width, canvas.height);
       snake.move();
-      eatApple();
+      eatFrog();
       checkHitWall();
     }
 
-    function eatApple() {
+    function eatFrog() {
       if (
-        snake.tail[snake.tail.length - 1].x === apple.x &&
-        snake.tail[snake.tail.length - 1].y === apple.y
+        snake.tail[snake.tail.length - 1].x === frog.x &&
+        snake.tail[snake.tail.length - 1].y === frog.y
       ) {
-        snake.tail[snake.tail.length] = { x: apple.x, y: apple.y };
-        apple = new Apple();
+        snake.tail[snake.tail.length] = { x: frog.x, y: frog.y };
+        frog = new Frog();
       }
     }
 
@@ -88,7 +88,7 @@
       /**
        * 当目标方块的随机位置更新后，以此重新回值目标方块
        */
-      createRect(apple.x, apple.y, apple.size, apple.size, apple.color);
+      createRect(frog.x, frog.y, frog.size, frog.size, frog.color);
     }
 
     /**
@@ -111,16 +111,16 @@
      */
     window.addEventListener("keydown", (event) => {
       setTimeout(() => {
-        if (event.code === "ArrowLeft" && snake.rotateX != 1) {
+        if (['KeyA', 'ArrowLeft'].includes(event.code) && snake.rotateX != 1) {
           snake.rotateX = -1;
           snake.rotateY = 0;
-        } else if (event.code === "ArrowUp" && snake.rotateY != 1) {
+        } else if (['KeyW', 'ArrowUp'].includes(event.code) && snake.rotateY != 1) {
           snake.rotateX = 0;
           snake.rotateY = -1;
-        } else if (event.code === "ArrowRight" && snake.rotateX != -1) {
+        } else if (['KeyD', 'ArrowRight'].includes(event.code) && snake.rotateX != -1) {
           snake.rotateX = 1;
           snake.rotateY = 0;
-        } else if (event.code === "ArrowDown" && snake.rotateY != -1) {
+        } else if (['KeyS', 'ArrowDown'].includes(event.code) && snake.rotateY != -1) {
           snake.rotateX = 0;
           snake.rotateY = 1;
         }
@@ -175,7 +175,7 @@
       }
     }
 
-    class Apple {
+    class Frog {
       constructor() {
         let isTouching; // 是否与蛇接触
 
@@ -192,7 +192,7 @@
             snake.size;
           /**
            * 这里遍历当前蛇身的每一个方块的位置是否与重新生成的目标方块相同
-           * 如果相同则更改当前接触的状态，用于在调用eatApple，时重新计算并回值当前目标方方块
+           * 如果相同则更改当前接触的状态，用于在调用eatFrog，时重新计算并回值当前目标方方块
            */
           for (let i = 0; i < snake.tail.length; i++) {
             if (this.x === snake.tail[i].x && this.y == snake.tail[i].y) {
@@ -211,6 +211,6 @@
     }
 
     const snake = new Snake(20, 20, 20);
-    let apple = new Apple();
+    let frog = new Frog();
   </script>
 </html>
